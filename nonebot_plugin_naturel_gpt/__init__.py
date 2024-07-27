@@ -8,6 +8,10 @@ from .config import *
 from .preset_hub_funcs import check_presethub_connection
 from . import utils
 
+from nonebot.plugin import PluginMetadata
+
+from .config import Config
+
 global_config = get_driver().config
 # logger.info(config) # 这里可以打印出配置文件的内容
 
@@ -18,6 +22,24 @@ from .chat_manager import ChatManager
 from . import matcher
 from . import matcher_MCRcon # noqa: F401
 
+
+__plugin_meta__ = PluginMetadata(
+    name="更更更人性化的GPT-Ai聊天插件",
+    description="一个基于NoneBot框架的Ai聊天插件，对接OpenAi文本生成接口，优化了群聊场景的上下文支持。本插件在原版NG的基础上加入了原作者明确不会添加的有用功能。",
+
+    type="application",
+    # 发布必填，当前有效类型有：`library`（为其他插件编写提供功能），`application`（向机器人用户提供功能）。
+
+    homepage="https://github.com/Zhou-Shilin/nonebot_plugin_naturel_gpt_plus",
+    # 发布必填。
+
+    config=Config,
+    # 插件配置项类，如无需配置可不填写。
+
+    supported_adapters={"~onebot.v11"},
+    # 支持的适配器集合，其中 `~` 在此处代表前缀 `nonebot.adapters.`，其余适配器亦按此格式填写。
+    # 若插件可以保证兼容所有适配器（即仅使用基本适配器功能）可不填写，否则应该列出插件支持的适配器。
+)
 
 def set_permission_check_func(callback:Callable[[Matcher, Event, Bot, str, str], Awaitable[Tuple[bool,Optional[str]]]]):
     """设置Matcher的权限检查函数"""

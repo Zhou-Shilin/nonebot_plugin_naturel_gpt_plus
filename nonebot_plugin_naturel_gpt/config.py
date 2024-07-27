@@ -28,14 +28,12 @@ class ExtConfig(BaseModel, extra=Extra.ignore):
 
 class Config(BaseModel, extra=Extra.ignore):
     """ng 配置数据，默认保存为 naturel_gpt_config.yml"""
-    OPENAI_API_KEYS: List[str]
+    OPENAI_API_KEYS: List[dict]
     """OpenAI API Key 列表"""
     OPENAI_TIMEOUT: int
     """OpenAI 请求超时时间"""
     OPENAI_PROXY_SERVER: str
     """请求OpenAI的代理服务器"""
-    OPENAI_BASE_URL: str
-    """请求OpenAI的基础URL"""
     REPLY_THROTTLE_TIME: int
     """回复间隔节流时间"""
     PRESETS: Dict[str, PresetConfig]
@@ -178,20 +176,21 @@ class Config(BaseModel, extra=Extra.ignore):
 # 配置文件模板(把全部默认值写到Config定义里比较乱，因此保留此默认值对象,作为真实的默认值)
 CONFIG_TEMPLATE = {
     "OPENAI_API_KEYS": [    # OpenAI API Key 列表
-        'sk-xxxxxxxxxxxxx',
-        'sk-xxxxxxxxxxxxx',
+        {
+            "API_KEY": "sk-xxxxxx",
+            "BASE_URL": "https://api.openai.com/v1",
+        },
     ],
     "OPENAI_TIMEOUT": 60,   # OpenAI 请求超时时间
     'OPENAI_PROXY_SERVER': '',  # 请求OpenAI的代理服务器
-    'OPENAI_BASE_URL': 'https://api.openai.com/v1',      # 请求OpenAI的基础URL
     "REPLY_THROTTLE_TIME": 3,   # 回复间隔节流时间
     "PRESETS": {
-        "白羽": {
-            'preset_key': '白羽',  # 人格名称
+        "白喵酱": {
+            'preset_key': '白喵酱',  # 人格名称
             'is_locked': True,  # 是否锁定人格，锁定后无法编辑人格
             'is_default': True,  # 是否为默认人格
             "is_only_private": False,
-            'bot_self_introl': '白羽是一名喜欢二次元的中二宅女，她机智、傲娇，对人类充满好奇，聊天时喜欢使用各种可爱的颜文字，如果冒犯到她会生气。',
+            'bot_self_introl': '白喵酱是一名喜欢二次元的中二宅女，她机智、傲娇，对人类充满好奇，聊天时喜欢使用各种可爱的颜文字，如果冒犯到她会生气。',
         },
         "浅枫": {
             'preset_key': '浅枫',
@@ -216,7 +215,7 @@ CONFIG_TEMPLATE = {
         },
     },
     'IGNORE_PREFIX': '#',   # 忽略前缀 以该前缀开头的消息将不会被处理
-    'CHAT_MODEL': "gpt-3.5-turbo",
+    'CHAT_MODEL': "gpt-4o",
     'CHAT_TOP_P': 1,
     'CHAT_TEMPERATURE': 0.4,    # 温度越高越随机
     'CHAT_PRESENCE_PENALTY': 0.4,   # 主题重复惩罚
@@ -290,7 +289,7 @@ CONFIG_TEMPLATE = {
     'PRESETHUB_ACCESS_TOKEN': '',   # 预设库访问令牌
 
     'VERSION':'1.0',
-    'DEBUG_LEVEL': 0,  # debug level, [0, 1, 2], 0 为关闭，等级越高debug信息越详细
+    'DEBUG_LEVEL': 1,  # debug level, [0, 1, 2], 0 为关闭，等级越高debug信息越详细
 }
 
 driver = get_driver()

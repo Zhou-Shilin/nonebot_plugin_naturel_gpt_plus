@@ -25,6 +25,13 @@
     </a>
 </div>
 
+## ❓ NG+ 是什么
+NG+全名为 Naturel GPT Plus，添加了原版NG中作者明确表示不会添加的功能。
+目前添加的功能有：
+- 支持`BASE_URL`备选 ([#199](https://github.com/KroMiose/nonebot_plugin_naturel_gpt/issues/199))
+
+欢迎在Issues中提新功能建议。不过建议先去原版NG下提，如果被拒绝了，再来这里提哦~
+
 ## 🎏 NG 进化史
 
 ### 🎭 [2023/12/24] v2.2 PresetHub 预设共享中心上线

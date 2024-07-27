@@ -42,11 +42,11 @@ class TextGenerator(Singleton["TextGenerator"]):
         res, success = ('', False)
         for _ in range(len(self.api_keys)):
             if type == 'chat':
-                res, success = self.get_chat_response(self.api_keys[self.key_index], prompt, custom)
+                res, success = self.get_chat_response(self.api_keys[self.key_index]["API_KEY"], prompt, custom, base_url=self.api_keys[self.key_index]["BASE_URL"])
             elif type == 'summarize':
-                res, success = self.get_summarize_response(self.api_keys[self.key_index], prompt, custom)
+                res, success = self.get_summarize_response(self.api_keys[self.key_index]["API_KEY"], prompt, custom, base_url=self.api_keys[self.key_index]["BASE_URL"])
             elif type == 'impression':
-                res, success = self.get_impression_response(self.api_keys[self.key_index], prompt, custom)
+                res, success = self.get_impression_response(self.api_keys[self.key_index]["API_KEY"], prompt, custom, base_url=self.api_keys[self.key_index]["BASE_URL"])
             else:
                 res, success = (f'未知类型:{type}', False)
             if success:
@@ -73,9 +73,10 @@ class TextGenerator(Singleton["TextGenerator"]):
         logger.error("请求 OpenAi 发生错误，请检查 Api Key 是否正确或者查看控制台相关日志")
         return res, False
 
-    def get_chat_response(self, key:str, prompt, custom:dict = {})->Tuple[str, bool]:
+    def get_chat_response(self, key:str, prompt, custom:dict = {}, base_url:str = None)->Tuple[str, bool]:
         """对话文本生成"""
         openai.api_key = key
+        if base_url is not None: openai.api_base = base_url
         try:
             if self.config['model'].startswith('gpt-3.5-turbo') or self.config['model'].startswith('gpt-4'):
                 response = openai.ChatCompletion.create(
@@ -127,12 +128,13 @@ class TextGenerator(Singleton["TextGenerator"]):
         except Exception as e:
             return f"请求 OpenAi Api 时发生错误: {e}", False
 
-    def get_summarize_response(self, key:str, prompt:str, custom:dict = {})->Tuple[str, bool]:
+    def get_summarize_response(self, key:str, prompt:str, custom:dict = {}, base_url:str = None)->Tuple[str, bool]:
         """总结文本生成"""
         openai.api_key = key
+        if base_url is not None: openai.api_base = base_url
         try:
             response = openai.ChatCompletion.create(
-                model='gpt-3.5-turbo',
+                model='gpt-4o',
                 messages=[
                     {'role': 'user', 'content': prompt},
                 ],
@@ -168,12 +170,13 @@ class TextGenerator(Singleton["TextGenerator"]):
         except Exception as e:
             return f"请求 OpenAi Api 时发生错误: {e}", False
 
-    def get_impression_response(self, key:str, prompt:str, custom:dict = {})->Tuple[str, bool]:
+    def get_impression_response(self, key:str, prompt:str, custom:dict = {}, base_url:str = None)->Tuple[str, bool]:
         """印象文本生成"""
         openai.api_key = key
+        if base_url is not None: openai.api_base = base_url
         try:
             response = openai.ChatCompletion.create(
-                model='gpt-3.5-turbo-0301',
+                model='gpt-4o',
                 messages=[
                     {'role': 'user', 'content': prompt},
                 ],
@@ -223,12 +226,12 @@ class TextGenerator(Singleton["TextGenerator"]):
     #         return 2048
 
     @staticmethod
-    def cal_token_count(text: str, model: str = "gpt-3.5-turbo"):
+    def cal_token_count(text: str, model: str = "gpt-4o"):
         """计算字节对编码后的token数量
 
         Args:
             text (str): 文本
-            model (str, optional): 模型. Defaults to "gpt-3.5-turbo".
+            model (str, optional): 模型. Defaults to "gpt-4o".
 
         Returns:
             int: token 数量
