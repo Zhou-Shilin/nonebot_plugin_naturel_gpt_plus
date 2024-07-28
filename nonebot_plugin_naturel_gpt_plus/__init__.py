@@ -74,7 +74,7 @@ TextGenerator.instance.init(api_keys=api_keys, config={
         'timeout': config.OPENAI_TIMEOUT,
 }, 
 proxy=config.OPENAI_PROXY_SERVER if config.OPENAI_PROXY_SERVER else None, # 代理服务器配置
-base_url=config.OPENAI_BASE_URL if config.OPENAI_BASE_URL else '', # OpenAI API的base_url
+#base_url=config.OPENAI_BASE_URL if config.OPENAI_BASE_URL else '', # OpenAI API的base_url
 )
 
 """ ======== 加载扩展模块 ======== """

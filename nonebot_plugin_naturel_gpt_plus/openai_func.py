@@ -25,7 +25,7 @@ except:
     logger.warning("无法获取 openai 库版本，请更新至 0.27.0 版本以上，否则 gpt-3.5-turbo 模型将无法使用")
 
 class TextGenerator(Singleton["TextGenerator"]):
-    def init(self, api_keys: list, config: dict, proxy = None, base_url = ''):
+    def init(self, api_keys: list, config: dict, proxy = None):
         self.api_keys = api_keys
         self.key_index = 0
         self.config = config
@@ -33,8 +33,6 @@ class TextGenerator(Singleton["TextGenerator"]):
             if not proxy.startswith('http'):
                 proxy = 'http://' + proxy
         openai.proxy = proxy
-        if base_url:
-            openai.api_base = base_url
     
     @run_sync
     def get_response(self, prompt, type: str = 'chat', custom: dict = {}) -> Tuple[str, bool]:
