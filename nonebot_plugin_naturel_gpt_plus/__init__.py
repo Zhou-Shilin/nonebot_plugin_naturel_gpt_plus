@@ -26,6 +26,7 @@ from . import matcher_MCRcon # noqa: F401
 __plugin_meta__ = PluginMetadata(
     name="更更更人性化的GPT-Ai聊天插件",
     description="一个基于NoneBot框架的Ai聊天插件，对接OpenAi文本生成接口，优化了群聊场景的上下文支持。本插件在原版NG的基础上加入了原作者明确不会添加的有用功能。",
+    usage="请参阅项目文档",
 
     type="application",
     # 发布必填，当前有效类型有：`library`（为其他插件编写提供功能），`application`（向机器人用户提供功能）。
